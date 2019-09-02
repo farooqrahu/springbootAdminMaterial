@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -22,8 +23,8 @@ public class SimpleController {
     }
 
 //    pages/forms/basic-form-elements.html
-    @RequestMapping(value = "/pages/forms/{page}", method = RequestMethod.GET)
-    public String pages(Locale locale, Model model, @PathVariable(value="page") String page) {
+    @RequestMapping(value = "/pages/{pathVariable}/{page}", method = RequestMethod.GET)
+    public String pages(HttpServletRequest request,Locale locale, Model model,@PathVariable("pathVariable")String pathVariable, @PathVariable(value="page") String page) {
         logger.info("Page Called: "+page);
         Date date = new Date();
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
@@ -32,7 +33,7 @@ public class SimpleController {
 
         model.addAttribute("serverTime", formattedDate );
 
-        return "/pages/forms/"+page;
+        return "/pages/"+pathVariable+"/"+page;
     }
 
 }
